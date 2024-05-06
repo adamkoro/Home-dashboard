@@ -1,10 +1,21 @@
 <script lang="ts">
-	import { user } from '$lib/firebase';
+	import { auth, user } from '$lib/firebase';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	onMount(() => {
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			if (!user) {
+				goto("/login");
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	});
 </script>
 
 {#if $user}
 	<slot/>
-{:else}
-	<p>Please log in</p>
-	<a href="/login">Sign In</a>
 {/if}
