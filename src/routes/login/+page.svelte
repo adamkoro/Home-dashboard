@@ -1,35 +1,31 @@
 <script lang="ts">
-	import { auth, user } from '$lib/firebase';
-	import {GithubAuthProvider, signInWithPopup} from "firebase/auth";
+	import { auth } from '$lib/firebase';
+	import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
 	async function  signInWithGithub() {
 		const provider = new GithubAuthProvider();
-		await signInWithPopup(auth, provider)
+		const credential = await signInWithPopup(auth, provider)
+		const idToken = await credential.user.getIdToken();
+		const res = await fetch("/api/login",{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({idToken}),
+		});
+		if (res.ok) {
+			await goto("/home")
+		}
 	}
 
-	onMount(() => {
-		const unsubscribe = auth.onAuthStateChanged(user => {
-			if (user) {
-				goto("/home");
-			}
-		});
-
-		return () => {
-			unsubscribe();
-		};
-	});
 </script>
 
 <div class="login-page">
 	<div class="login-container">
-		{#if $user}
-			<p>Redirecting to home page</p>
-		{:else}
 			<img class="logo-img" src="/logo.png" alt="Dashboard Logo">
 			<button on:click={signInWithGithub}>Sign in with GitHub</button>
-		{/if}
 	</div>
 </div>
 
@@ -68,10 +64,5 @@
 
     button:hover {
         background-color: seagreen;
-    }
-
-    p {
-        color: white;
-        font-size: 16px;
     }
 </style>

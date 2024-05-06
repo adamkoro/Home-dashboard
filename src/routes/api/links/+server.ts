@@ -1,52 +1,43 @@
+import { adminAuth } from '$lib/server/firebaseAdmin';
+import type { RequestEvent } from "@sveltejs/kit";
 import { db } from '../../../db/db';
-import type {RequestEvent} from "@sveltejs/kit";
-import type {ApiResponse} from '../types';
 import { links } from '../../../db/schema';
-
 import { eq } from 'drizzle-orm';
 
-export async function GET(event: RequestEvent) {
-		let url = new URL(event.request.url)
-		let email = url.searchParams.get("email")
+export async function GET(event: RequestEvent): Promise<Response> {
+	const token = event.request.headers.get('Authorization')?.split('Bearer ')[1];
 
-		if (!email) {
-			const rpMessage: ApiResponse = {
-					type: "error",
-					message: "Email is required",
-					data: null
-			}
-			return new Response( JSON.stringify(rpMessage),{ status: 400 });
+	if (!token) {
+		return new Response(JSON.stringify({ type: "error", message: "Authorization token is required" }), { status: 401 });
+	}
+
+	try {
+		// Verify the Firebase ID token
+		const decodedToken = await adminAuth.verifyIdToken(token);
+		const userEmail = decodedToken.email;
+
+		if (!userEmail) {
+			return new Response(JSON.stringify({ type: "error", message: "Invalid token" }), { status: 401 });
 		}
 
-		try {
-			const result = await db.select().from(links).where(eq(links.email, email)).execute();
+		// Proceed with your original logic
+		let url = new URL(event.request.url);
+		let email = url.searchParams.get("email");
 
-			if (result.length === 0) {
-				const rpMessage: ApiResponse = {
-					type: "error",
-					message: "No email or links found with the provided email address",
-					data: null
-				};
-				return new Response(JSON.stringify(rpMessage), { status: 404 });
-			}
-
-			const rpMessage: ApiResponse = {
-				type: "success",
-				message: "User found",
-				data: result
-			};
-			return new Response(JSON.stringify(rpMessage), { status: 200 });
-		} catch (error) {
-			console.error('Database query failed:', error);
-			const rpMessage: ApiResponse = {
-				type: "error",
-				message: "Internal Server Error",
-				data: null
-			};
-			return new Response(JSON.stringify(rpMessage), { status: 500 });
+		if (!email || email !== userEmail) {
+			return new Response(JSON.stringify({ type: "error", message: "Email parameter is required and must match the authenticated user" }), { status: 400 });
 		}
-}
 
-export async function POST(event: RequestEvent) {
+		const result = await db.select().from(links).where(eq(links.email, email)).execute();
 
+		if (result == null) {
+			return new Response(JSON.stringify({ type: "error", message: "No email or links found with the provided email address" }), { status: 404 });
+		}
+
+		return new Response(JSON.stringify({ type: "success", message: "User found", data: result }), { status: 200 });
+
+	} catch (error) {
+		console.error('Error verifying Firebase ID token:', error);
+		return new Response(JSON.stringify({ type: "error", message: "Internal Server Error" }), { status: 500 });
+	}
 }
