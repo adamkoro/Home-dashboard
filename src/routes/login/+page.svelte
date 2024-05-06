@@ -6,8 +6,7 @@
 
 	async function  signInWithGithub() {
 		const provider = new GithubAuthProvider();
-		const user = await signInWithPopup(auth, provider)
-		console.log(user)
+		await signInWithPopup(auth, provider)
 	}
 
 	onMount(() => {
