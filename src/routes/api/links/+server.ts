@@ -2,6 +2,7 @@ import { db } from '../../../db/db';
 import type {RequestEvent} from "@sveltejs/kit";
 import type {ApiResponse} from '../types';
 import { links } from '../../../db/schema';
+
 import { eq } from 'drizzle-orm';
 
 export async function GET(event: RequestEvent) {
@@ -23,7 +24,7 @@ export async function GET(event: RequestEvent) {
 			if (result.length === 0) {
 				const rpMessage: ApiResponse = {
 					type: "error",
-					message: "No user found with the provided ID",
+					message: "No user or links found with the provided user id",
 					data: null
 				};
 				return new Response(JSON.stringify(rpMessage), { status: 404 });
