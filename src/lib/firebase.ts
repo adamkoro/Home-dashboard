@@ -1,18 +1,9 @@
 import { initializeApp, } from "firebase/app";
 import { getAuth,onAuthStateChanged } from "firebase/auth";
 import { writable, } from 'svelte/store';
+import { PUBLIC_FIREBASE_CONFIG } from '$env/static/public';
 
-
-const firebaseConfig = {
-	// This is not the best implementation I know, but for the demo, this is required
-	apiKey: "AIzaSyCZbF5Rgm9-f3sHlvvLjzDmbskdDSWqpTQ",
-	authDomain: "home-dashboard-b46e5.firebaseapp.com",
-	projectId: "home-dashboard-b46e5",
-	storageBucket: "home-dashboard-b46e5.appspot.com",
-	messagingSenderId: "572961206401",
-	appId: "1:572961206401:web:46263c158839ee9faa9d80"
-};
-
+const firebaseConfig = JSON.parse(PUBLIC_FIREBASE_CONFIG);
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 

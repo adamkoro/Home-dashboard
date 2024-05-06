@@ -7,24 +7,24 @@ import { eq } from 'drizzle-orm';
 
 export async function GET(event: RequestEvent) {
 		let url = new URL(event.request.url)
-		let userID = url.searchParams.get("userid")
+		let email = url.searchParams.get("email")
 
-		if (!userID) {
+		if (!email) {
 			const rpMessage: ApiResponse = {
 					type: "error",
-					message: "User is required",
+					message: "Email is required",
 					data: null
 			}
 			return new Response( JSON.stringify(rpMessage),{ status: 400 });
 		}
 
 		try {
-			const result = await db.select().from(links).where(eq(links.userId, parseInt(userID))).execute();
+			const result = await db.select().from(links).where(eq(links.email, email)).execute();
 
 			if (result.length === 0) {
 				const rpMessage: ApiResponse = {
 					type: "error",
-					message: "No user or links found with the provided user id",
+					message: "No email or links found with the provided email address",
 					data: null
 				};
 				return new Response(JSON.stringify(rpMessage), { status: 404 });

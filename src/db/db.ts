@@ -1,25 +1,17 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2';
-import * as dotenv from 'dotenv';
+import { SECRET_DB_HOST, SECRET_DB_PORT, SECRET_DB_USERNAME, SECRET_DB_PASSWORD, SECRET_DB_NAME } from '$env/static/private';
 
-dotenv.config();
-
-export const DATABASE_HOST = process.env.DB_HOST;
-export const DATABASE_PORT = process.env.DB_PORT;
-export const DATABASE_USER = process.env.DB_USERNAME;
-export const DATABASE_PASSWORD = process.env.DB_PASSWORD;
-export const DATABASE_NAME = process.env.DB_NAME;
-
-if (!DATABASE_HOST || !DATABASE_USER || !DATABASE_PASSWORD || !DATABASE_NAME || !DATABASE_PORT) {
+if (!SECRET_DB_HOST || !SECRET_DB_PORT || !SECRET_DB_USERNAME || !SECRET_DB_PASSWORD || !SECRET_DB_NAME) {
 	throw new Error('Database configuration is missing, check the env variables');
 }
 
 export const connection = mysql.createConnection({
-	host: DATABASE_HOST,
-	user: DATABASE_USER,
-	password: DATABASE_PASSWORD,
-	database: DATABASE_NAME,
-	port: DATABASE_PORT
+	host: SECRET_DB_HOST,
+	user: SECRET_DB_USERNAME,
+	password: SECRET_DB_PASSWORD,
+	database: SECRET_DB_NAME ,
+	port: parseInt(SECRET_DB_PORT)
 });
 
 export const db = drizzle(connection);
