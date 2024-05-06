@@ -9,7 +9,6 @@
 ## Architecture
 
 - frontend -> Svelte-Kit
-- 
 - backend -> Svelte-Kit(app data only)
 - database -> Mariadb(app data and user data)
 - Auth provider -> Firebase with GitHub
