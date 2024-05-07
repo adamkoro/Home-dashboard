@@ -12,7 +12,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	}
 
 	try {
-		// Verify the Firebase ID token
 		const decodedToken = await adminAuth.verifyIdToken(token);
 		const userEmail = decodedToken.email;
 
@@ -20,7 +19,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			return new Response(JSON.stringify({ type: "error", message: "Invalid token" }), { status: 401 });
 		}
 
-		// Proceed with your original logic
 		let url = new URL(event.request.url);
 		let email = url.searchParams.get("email");
 
