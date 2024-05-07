@@ -5,30 +5,22 @@ import { links } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function GET(event: RequestEvent): Promise<Response> {
-	const token = event.request.headers.get('Authorization')?.split('Bearer ')[1];
-
-	if (!token) {
-		return new Response(JSON.stringify({ type: "error", message: "Authorization token is required" }), { status: 401 });
-	}
-
 	try {
-		const decodedToken = await adminAuth.verifyIdToken(token);
-		const userEmail = decodedToken.email;
 
-		if (!userEmail) {
+		if (!event.locals.email) {
 			return new Response(JSON.stringify({ type: "error", message: "Invalid token" }), { status: 401 });
 		}
 
 		let url = new URL(event.request.url);
 		let email = url.searchParams.get("email");
 
-		if (!email || email !== userEmail) {
+		if (!email || email !== event.locals.email) {
 			return new Response(JSON.stringify({ type: "error", message: "Email parameter is required and must match the authenticated user" }), { status: 400 });
 		}
 
 		const result = await db.select().from(links).where(eq(links.email, email)).execute();
 
-		if (result == null) {
+		if (result == undefined || result == null || result.length === 0) {
 			return new Response(JSON.stringify({ type: "error", message: "No email or links found with the provided email address" }), { status: 404 });
 		}
 
