@@ -1,21 +1,13 @@
 <script lang="ts">
-	import { signOut, onAuthStateChanged } from 'firebase/auth';
+	import { onAuthStateChanged } from 'firebase/auth';
 	import { auth } from '$lib/firebase';
-	import { goto } from '$app/navigation';
 	import type { link } from '$lib/types.js';
+	import Header from '$lib/components/Header.svelte';
+    import { goto } from '$app/navigation';
 
-	async function signOutSSR() {
-		const res = await fetch("/api/login", {
-			method: "DELETE"
-		});
-		await signOut(auth);
-		if (res.ok) {
-			await goto("/login");
-		}
-	}
-
+	export let data;
 	let userLinks: Array<link> = [];
-	let error: string | null | unknown = null;
+	let error: string | null | any = null;
 
 	async function fetchLinks(email: string) {
         fetch(`/api/links?email=${email}`)
@@ -33,30 +25,69 @@
                 }
             })
             .catch(e => {
-                error = e.message || "An error occurred while fetching links";
+                error = e.message;
             });
+    }
+
+    function navigateToCreate() {
+        goto('/create');
+    }
+
+	function openLink(url) {
+        window.open(url, '_blank');
     }
 
     onAuthStateChanged(auth, user => {
 		if (user && user.email) {
 			fetchLinks(user.email);
-		} else {
-			error = "User email is not available";
 		}
     });
 </script>
 
 <main>
-	<h1>Home page</h1>
-	<h3>Welcome</h3>
-		{#if error}
-			<p>{error}</p>
+	<Header userEmail={data.props.userEmail} />
+	{#if error}
+	<!--TODO ezt folytattni az error-t-->
+			<div class="error">
+				<p class="error-code">Error Code: <span class="error-code-value">{error.errorCode}</span></p>
+				<p class="error-message">Message: <span class="error-message-value">{error.message}</span></p>
+			</div>
 		{:else}
-			<ul>
-				{#each userLinks as link}
-					<li>{link.name} - {link.url}</li>
+			<div class="link-container">
+				{#each userLinks as link (link.id)}
+						<div class="link-card">
+							<button on:click={() => openLink(link.url)}>{link.name}</button>
+						</div>
 				{/each}
-			</ul>
+                <div class="add-link-card">
+                    <button on:click={navigateToCreate}>Create New</button>
+                </div>
+			</div>
 		{/if}
-	<button on:click={signOutSSR}>Sign out</button>
 </main>
+
+<style>
+	.link-card button {
+        background-color: mediumseagreen;
+        color: black;
+        text-decoration: none;
+        margin-left: 10px;
+        border-color: black;
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border: 2px solid orange;
+        border-radius: 8px;
+        font-size: 25px;
+        transition: background-color 0.3s;
+    }
+
+	.link-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		padding: 10px;
+        margin-top: 30px;
+		justify-content: center;
+    }
+</style>

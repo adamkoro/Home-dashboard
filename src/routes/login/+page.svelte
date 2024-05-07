@@ -3,7 +3,7 @@
 	import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 
-	async function  signInWithGithub() {
+	async function signInWithGithub() {
 		const provider = new GithubAuthProvider();
 		const credential = await signInWithPopup(auth, provider)
 		const idToken = await credential.user.getIdToken();
@@ -58,7 +58,7 @@
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 8px;
         transition: background-color 0.3s;
     }
 

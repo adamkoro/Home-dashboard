@@ -1,4 +1,3 @@
-import { adminAuth } from '$lib/server/firebaseAdmin';
 import type { RequestEvent } from "@sveltejs/kit";
 import { db } from '../../../db/db';
 import { links } from '../../../db/schema';

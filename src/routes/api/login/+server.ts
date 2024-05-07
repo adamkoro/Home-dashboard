@@ -22,5 +22,6 @@ export async function POST(event: RequestEvent) {
 
 export async function DELETE(event: RequestEvent) {
 	event.cookies.delete('__session',{path: '/'});
+	event.cookies.delete('userEmail',{path: '/',httpOnly: false});
 	return new Response(JSON.stringify({ type: "success", message: "Successfully logged in" }), { status: 200 });
 }
