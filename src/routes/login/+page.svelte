@@ -2,7 +2,6 @@
 	import { auth } from '$lib/firebase';
 	import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 
 	async function  signInWithGithub() {
 		const provider = new GithubAuthProvider();
@@ -22,13 +21,14 @@
 
 </script>
 
+<main>
 <div class="login-page">
 	<div class="login-container">
 			<img class="logo-img" src="/logo.png" alt="Dashboard Logo">
 			<button on:click={signInWithGithub}>Sign in with GitHub</button>
 	</div>
 </div>
-
+</main>
 <style>
     .login-page {
         display: flex;
