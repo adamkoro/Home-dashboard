@@ -1,6 +1,10 @@
 <script>
+	import { goto } from '$app/navigation';
+
     let name = '';
     let url = '';
+    export let data;
+    let email = data.props.userEmail
 
     async function submitForm() {
         const response = await fetch('/api/links', {
@@ -8,24 +12,74 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, url })
+            body: JSON.stringify({ name, url, email })
         });
 
         if (response.ok) {
-            const result = await response.json();
-            alert(`Link created with ID: ${result.id}`);
-        } else {
-            alert('Failed to create link.');
+            goto("/home")
         }
     }
+
+    async function returnToHome(){
+        goto("/home")
+    }
 </script>
+<main>
+    <form on:submit|preventDefault={submitForm}>
+        <label for="name">Name:</label>
+        <input id="name" type="text" bind:value={name} />
 
-<form on:submit|preventDefault={submitForm}>
-    <label for="name">Name:</label>
-    <input id="name" type="text" bind:value={name} />
+        <label for="url">URL:</label>
+        <input id="url" type="text" bind:value={url} />
 
-    <label for="url">URL:</label>
-    <input id="url" type="text" bind:value={url} />
+        <button type="submit">Create Link</button>
+        <button class="cancel-button" on:click={returnToHome}> Cancel</button>
+    </form>
+</main>
 
-    <button type="submit">Create Link</button>
-</form>
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin: 100px auto;
+    }
+
+    input, button {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+    .cancel-button {
+        background-color: rgb(216, 0, 0);
+    }
+
+    .cancel-button:hover {
+        background-color: rgb(167, 0, 0);
+    }
+
+    label {
+        align-self: flex-start;
+        margin-left: 5%;
+    }
+</style>
