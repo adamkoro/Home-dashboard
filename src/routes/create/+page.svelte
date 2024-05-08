@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 
     let name = '';
@@ -6,7 +6,8 @@
     export let data;
     let email = data.props.userEmail
 
-    async function submitForm() {
+    async function submitForm(event: Event) {
+        event.preventDefault();
         const response = await fetch('/api/links', {
             method: 'POST',
             headers: {
@@ -16,16 +17,17 @@
         });
 
         if (response.ok) {
-            goto("/home")
+            goto("/home");
         }
     }
 
-    async function returnToHome(){
-        goto("/home")
+    async function returnToHome(event: Event){
+        event.preventDefault();
+        goto("/home");
     }
 </script>
 <main>
-    <form on:submit|preventDefault={submitForm}>
+    <form>
         <label for="name">Name:</label>
         <input id="name" type="text" bind:value={name} />
 
@@ -33,7 +35,7 @@
         <p> Do not forget to add http:// or https:// </p>
         <input id="url" type="text" bind:value={url} />
 
-        <button type="submit">Create Link</button>
+        <button type="submit" on:click={submitForm}>Create Link</button>
         <button class="cancel-button" on:click={returnToHome}> Cancel</button>
     </form>
 </main>
