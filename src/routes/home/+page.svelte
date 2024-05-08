@@ -33,7 +33,7 @@
         goto('/create');
     }
 
-	function openLink(url) {
+	function openLink(url: string) {
         window.open(url, '_blank');
     }
 
@@ -60,7 +60,9 @@
 						</div>
 				{/each}
                 <div class="add-link-card">
-                    <button on:click={navigateToCreate}>Create New</button>
+                    <button on:click={navigateToCreate}>
+                        <img src="/icons/plus.png" alt="Create new link" />
+                    </button>
                 </div>
 			</div>
 		{/if}
@@ -68,18 +70,31 @@
 
 <style>
 	.link-card button {
-        background-color: mediumseagreen;
-        color: black;
+        border: 1px solid #ccc;
+        border-radius: 40px;
+        background-color: white;
         text-decoration: none;
+        width: 25vh;
         margin-left: 10px;
-        border-color: black;
-        padding: 5px 10px;
+        padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
-        border: 2px solid orange;
-        border-radius: 8px;
         font-size: 25px;
         transition: background-color 0.3s;
+    }
+
+    .add-link-card button {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .add-link-card img {
+        height: auto;
     }
 
 	.link-container {
