@@ -18,6 +18,8 @@
             .then(data => {
                 if (data.type === "success") {
                     userLinks = data.data;
+                } else {
+                    error = data
                 }
             })
             .catch(e => {
@@ -44,6 +46,8 @@
                 if (data.type === "success") {
                     if ($user?.email)
                         fetchLinks($user.email)
+                } else {
+                    error = data
                 }
             })
             .catch(e => {
@@ -84,8 +88,7 @@
             <div class="error-container">
                 <div class="error-dialog">
                     <h4 class="error-title">Oops! Something went wrong.</h4>
-                    <p class="error-code">Error Code: <span class="error-code-value">{error.statusCode}</span></p>
-                    <p class="error-message">Message: <span class="error-message-value">{error.message}</span></p>
+                    <p class="error-message">{error.message}</p>
                     <button class="error-close-btn" on:click={() => error = null}>Close</button>
                 </div>
             </div>
@@ -201,7 +204,7 @@
         margin-bottom: 10px;
     }
 
-    .error-code, .error-message {
+    .error-message {
         color: #333;
         background-color: #f8f8f8;
         padding: 10px;
