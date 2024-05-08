@@ -19,7 +19,7 @@
   - id -> PK
   - name -> varchar(256)
   - url -> text
-  - email -> varchar(256), unique
+  - email -> varchar(256)
 
 
 
