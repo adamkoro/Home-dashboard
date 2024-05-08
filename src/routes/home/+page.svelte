@@ -60,12 +60,9 @@
             if (response.ok) {
                 isAvailable = true
             }
-            console.log(`Link ${link.name} availability updated: ${isAvailable}`);
             userLinks[index] = { ...link, isAvailable };
         });
     }
-
-    setInterval(updateLinkAvailability, 10000);
 
     let user = writable<User | null>(null);
 
@@ -73,6 +70,7 @@
         if (firebaseUser && firebaseUser.email) {
             user.set({ email: firebaseUser.email });
             fetchLinks(firebaseUser.email);
+            setInterval(updateLinkAvailability, 10000);
         } else {
             user.set(null);
         }
