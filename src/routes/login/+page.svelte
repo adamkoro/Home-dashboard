@@ -60,6 +60,7 @@
         cursor: pointer;
         border-radius: 8px;
         transition: background-color 0.3s;
+        box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.2);
     }
 
     button:hover {
