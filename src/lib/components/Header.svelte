@@ -30,7 +30,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center; 
-        background-color: seagreen;
+        background-color: #45a049;
         padding: 1rem;
         border: 2px solid orange;
         border-radius: 8px;
@@ -47,7 +47,7 @@
     }
 
     nav a, nav button {
-        background-color: mediumseagreen;
+        background-color: #4CAF50;
         color: black;
         text-decoration: none;
         margin-left: 10px;
@@ -61,6 +61,6 @@
     }
 
     nav a:hover, nav button:hover {
-        background-color: seagreen;
+        background-color: #45a049;
     }
 </style>
