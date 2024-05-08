@@ -1,0 +1,1 @@
+ALTER TABLE `links` DROP INDEX `links_email_unique`;
