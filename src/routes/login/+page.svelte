@@ -22,12 +22,12 @@
 </script>
 
 <main>
-<div class="login-page">
-	<div class="login-container">
-			<img class="logo-img" src="/logo.png" alt="Dashboard Logo">
-			<button on:click={signInWithGithub}>Sign in with GitHub</button>
-	</div>
-</div>
+    <div class="login-page">
+        <div class="login-container">
+                <img class="logo-img" src="/logo.png" alt="Dashboard Logo">
+                <button on:click={signInWithGithub}>Sign in with GitHub</button>
+        </div>
+    </div>
 </main>
 <style>
     .login-page {
