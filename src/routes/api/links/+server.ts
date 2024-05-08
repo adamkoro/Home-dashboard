@@ -20,7 +20,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const result = await db.select().from(links).where(eq(links.email, email)).execute();
 
 		if (result == undefined || result == null || result.length === 0) {
-			return new Response(JSON.stringify({ type: "error", message: "No email or links found with the provided email address" }), { status: 404 });
+			return new Response(JSON.stringify({ type: "error", message: "No links found with the provided email address" }), { status: 404 });
 		}
 
 		return new Response(JSON.stringify({ type: "success", message: "User found", data: result }), { status: 200 });

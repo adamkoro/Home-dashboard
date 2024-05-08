@@ -3,4 +3,9 @@ export type link = {
 	name: string
 	url: string
 	email: string
+	isAvailable: boolean;
 }
+
+export type User = {
+    email: string;
+};

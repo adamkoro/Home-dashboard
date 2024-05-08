@@ -30,6 +30,7 @@
         <input id="name" type="text" bind:value={name} />
 
         <label for="url">URL:</label>
+        <p> Do not forget to add http:// or https:// </p>
         <input id="url" type="text" bind:value={url} />
 
         <button type="submit">Create Link</button>
@@ -44,31 +45,36 @@
         align-items: center;
         justify-content: center;
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 2px solid white;
         border-radius: 8px;
-        background-color: white;
+        background-color: seagreen;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         max-width: 400px;
         margin: 100px auto;
+        color: white;
     }
 
+    p {
+        color: white;
+        font-size: smaller;
+    }
     input, button {
         width: 90%;
         padding: 10px;
         margin: 10px 0;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 2px solid white;
     }
 
     button {
-        background-color: #4CAF50;
+        background-color: mediumseagreen;
         color: white;
         font-size: 16px;
         cursor: pointer;
     }
 
     button:hover {
-        background-color: #45a049;
+        background-color: seagreen;
     }
     .cancel-button {
         background-color: rgb(216, 0, 0);

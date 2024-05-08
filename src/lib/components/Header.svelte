@@ -17,50 +17,51 @@
 	}
 </script>
 
-<header>
-    <div class="welcome">Welcome, <span class="emailAddress">{userEmail}</span></div>
-    <nav>
-        <a href="/">Home</a>
+<main>
+    <header>
+        <div class="welcome">Welcome, <span class="emailAddress">{userEmail}</span></div>
         <button on:click={signOutSSR}>Sign out</button>
-    </nav>
-</header>
+    </header>
+</main>
 
 <style>
     header {
         display: flex;
         justify-content: space-between;
         align-items: center; 
-        background-color: #45a049;
+        background-color: seagreen;
         padding: 1rem;
-        border: 2px solid orange;
+        border: 2px solid white;
         border-radius: 8px;
         box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.2);
+        max-width: 65%;
+        margin: 0 auto;
     }
 
     .welcome {
-        flex-grow: 1;
         font-size: 20px;
+        color: white;
     }
 
     .emailAddress {
-        color: midnightblue;
+        color: black;
     }
 
-    nav a, nav button {
-        background-color: #4CAF50;
-        color: black;
+    button {
+        background-color: mediumseagreen;
+        color: white;
         text-decoration: none;
-        margin-left: 10px;
+        margin-left: auto;
         border-color: black;
         padding: 5px 10px;
         font-size: 16px;
         cursor: pointer;
-        border: 2px solid orange;
+        border: 2px solid white;
         border-radius: 8px;
         transition: background-color 0.3s;
     }
 
-    nav a:hover, nav button:hover {
-        background-color: #45a049;
+    button:hover {
+        background-color: seagreen;
     }
 </style>
