@@ -1,4 +1,5 @@
 version: '3'
+name: home-dashboard
 
 services:
   mariadb:
@@ -12,7 +13,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - data:/var/lib/mysql
+      - maria_data:/var/lib/mysql
 
 volumes:
-  data:
+  maria_data:
