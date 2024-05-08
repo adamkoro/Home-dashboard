@@ -8,7 +8,7 @@
 
 - You can save links into this app and backend will check if available or not. If not the color of the link box will be red.
 - Oauth2 with Firebase and Github.
-- Links stored into MariaDB.
+- Links stored in MariaDB.
 
 ## Architecture
 
