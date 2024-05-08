@@ -4,6 +4,12 @@
 
 - **IMPORTANT**: If you don't have a Firebase project with Github authentication provider, app won't work.
 
+## Features
+
+- You can save links into this app and backend will check if available or not. If not the color of the link box will be red.
+- Oauth2 with Firebase and Github.
+- Links stored into MariaDB.
+
 ## Architecture
 
 - frontend -> Svelte-Kit
